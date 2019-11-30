@@ -48,6 +48,11 @@ ceph-authtool /tmp/ceph.mon.keyring --import-keyring /etc/ceph/ceph.client.admin
 ceph-authtool /tmp/ceph.mon.keyring --import-keyring /var/lib/ceph/bootstrap-osd/ceph.keyring
 ```
 
+Change the ownership of ceph.mon.keyring
+```bash
+chown ceph:ceph /tmp/ceph.mon.keyring
+```
+
 ### 1.5 Generate a monitor map
 ```bash
 monmaptool --create --add $HOSTNAME $IP --fsid $FSID /tmp/monmap
@@ -65,13 +70,21 @@ monmaptool --print /tmp/monmap
 
 ### 1.5 Populate the monitor map and keyring.
 ```bash
-sudo -u ceph ceph-mon --mkfs -i $HOSTNAME --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring
+ceph-mon --mkfs -i $HOSTNAME \
+    --monmap /tmp/monmap \
+    --keyring /tmp/ceph.mon.keyring \
+    --setuser ceph --setgroup ceph
 ```
 
 > **Note**: After population, `/tmp/monmap` and `/tmp/ceph.mon.keyring` files are auto-cleaned.
 
 ### 1.6 Start the monitor
 ```bash
-systemctl start ceph-mon@$HOSTNAME
+systemctl start  ceph-mon@$HOSTNAME
 systemctl enable ceph-mon@$HOSTNAME
+```
+
+### 1.7 Verify monitor status
+```bash
+ceph --admin-daemon /var/run/ceph/ceph-mon.$HOSTNAME.asok mon_status
 ```
