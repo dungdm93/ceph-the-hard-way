@@ -27,3 +27,8 @@ $ apt install ceph \
     ceph-mds \
     radosgw
 ```
+
+## 3. Verify version
+```bash
+$ ceph --version
+```
