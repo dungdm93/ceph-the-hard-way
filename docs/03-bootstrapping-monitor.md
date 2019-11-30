@@ -55,12 +55,12 @@ chown ceph:ceph /tmp/ceph.mon.keyring
 
 ### 1.5 Generate a monitor map
 ```bash
-monmaptool --create --add $HOSTNAME $IP --fsid $FSID /tmp/monmap
+monmaptool --create --fsid $FSID --add $HOSTNAME $IP /tmp/monmap
 ```
 
 In Nautilus+, create both v1 & v2:
 ```bash
-monmaptool --create --addv $HOSTNAME [v1:$IP:6789,v2:$IP:3300] --fsid $FSID /tmp/monmap
+monmaptool --create --fsid $FSID --addv $HOSTNAME [v1:$IP:6789,v2:$IP:3300] /tmp/monmap
 ```
 
 * Verify monmap file by:
@@ -87,4 +87,32 @@ systemctl enable ceph-mon@$HOSTNAME
 ### 1.7 Verify monitor status
 ```bash
 ceph --admin-daemon /var/run/ceph/ceph-mon.$HOSTNAME.asok mon_status
+```
+
+## 2. Adding monitors to cluster
+### 2.1 Copy `ceph.client.admin.keyring` to new monitor
+### 2.2 Add & Retrieve new monitor to monmap
+There are some strategies to do this, here is the right ways:
+
+```bash
+ceph mon getmap -o /tmp/monmap
+monmaptool --addv $HOSTNAME [v1:$IP:6789,v2:$IP:3300] /tmp/monmap
+monmaptool --print /tmp/monmap
+```
+
+```bash
+ceph auth get mon. -o /tmp/ceph.mon.keyring
+chown ceph:ceph /tmp/ceph.mon.keyring
+```
+
+```bash
+ceph-mon --mkfs -i $HOSTNAME \
+    --monmap /tmp/monmap \
+    --keyring /tmp/ceph.mon.keyring \
+    --setuser ceph --setgroup ceph
+```
+
+```bash
+systemctl start  ceph-mon@$HOSTNAME
+systemctl enable ceph-mon@$HOSTNAME
 ```
