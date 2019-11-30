@@ -53,6 +53,16 @@ ceph-authtool /tmp/ceph.mon.keyring --import-keyring /var/lib/ceph/bootstrap-osd
 monmaptool --create --add $HOSTNAME $IP --fsid $FSID /tmp/monmap
 ```
 
+In Nautilus+, create both v1 & v2:
+```bash
+monmaptool --create --addv $HOSTNAME [v1:$IP:6789,v2:$IP:3300] --fsid $FSID /tmp/monmap
+```
+
+* Verify monmap file by:
+```bash
+monmaptool --print /tmp/monmap
+```
+
 ### 1.5 Populate the monitor map and keyring.
 ```bash
 sudo -u ceph ceph-mon --mkfs -i $HOSTNAME --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring
