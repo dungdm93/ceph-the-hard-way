@@ -76,8 +76,6 @@ ceph-mon --mkfs -i $HOSTNAME \
     --setuser ceph --setgroup ceph
 ```
 
-> **Note**: After population, `/tmp/monmap` and `/tmp/ceph.mon.keyring` files are auto-cleaned.
-
 ### 1.6 Start the monitor
 ```bash
 systemctl start  ceph-mon@$HOSTNAME
@@ -87,6 +85,12 @@ systemctl enable ceph-mon@$HOSTNAME
 ### 1.7 Verify monitor status
 ```bash
 ceph --admin-daemon /var/run/ceph/ceph-mon.$HOSTNAME.asok mon_status
+```
+
+### 1.8 Known Issues
+* If `systemd restart` always fails, try:
+```bash
+systemctl daemon-reload
 ```
 
 ## 2. Adding monitors to cluster
