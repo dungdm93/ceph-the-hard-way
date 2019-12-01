@@ -17,3 +17,9 @@ Create OSD
 ```bash
 ceph-volume lvm create --data /dev/sdb
 ```
+
+Verify
+```
+ceph-volume lvm list
+ceph status
+```
