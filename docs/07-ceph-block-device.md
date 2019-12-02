@@ -80,6 +80,20 @@ systemctl enable rbdmap.service
 
 
 Note: 
+* rbd syntax
 ```
 {image} -p {pool} == {pool}/{image}
+```
+
+* Reload rbdmap
+```
+rbdmap map / unmap
+
+# verify
+lsblk
+```
+
+* Reload fstab
+```bash
+mount -a
 ```
