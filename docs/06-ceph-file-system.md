@@ -19,3 +19,33 @@ ceph --name client.bootstrap-mds --keyring /var/lib/ceph/bootstrap-mds/ceph.keyr
 systemctl start  ceph-mds@$HOSTNAME
 systemctl enable ceph-mds@$HOSTNAME
 ```
+
+## 2. Create a Filesystem
+```bash
+ceph osd pool create  streaming.cephfs.data 32
+ceph osd pool create  streaming.cephfs.meta 32
+ceph fs new streaming streaming.cephfs.meta streaming.cephfs.data
+```
+
+> Note: Name your pools as `<application>.<fs-name>.<pool-name>` is a convention in case you have multiple Ceph applications and/or have multiple CephFSs on the same cluster.
+
+## 3. Mounting the Filesystem
+### 3.1 Prerequisites
+
+### 3.2a Mount CephFS using Kernel Driver
+
+[ref](https://docs.ceph.com/docs/master/cephfs/kernel/#synopsis)
+
+### 3.2b Mount CephFS using FUSE
+
+[ref](https://docs.ceph.com/docs/master/cephfs/fuse/#synopsis)
+
+### 3.3 Use the CephFS Shell
+* Prerequisites: `cephfs-shell` is installed.
+
+```console
+root@ceph-admin:~$ cephfs-shell
+CephFS:~/>>>
+```
+
+[ref](https://docs.ceph.com/docs/master/cephfs/cephfs-shell/)

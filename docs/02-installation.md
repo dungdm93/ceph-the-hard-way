@@ -21,7 +21,7 @@ $ echo "deb https://download.ceph.com/debian-${CEPH_RELEASE}/ $(lsb_release -sc)
 ```
 * Install `ceph-common`
 ```bash
-$ apt install ceph-common
+$ apt install ceph-common cephfs-shell
 ```
 
 ## 2. Ceph cluster (sds servers)
