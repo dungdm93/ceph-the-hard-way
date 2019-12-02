@@ -31,6 +31,22 @@ ceph fs new streaming streaming.cephfs.meta streaming.cephfs.data
 
 ## 3. Mounting the Filesystem
 ### 3.1 Prerequisites
+* Generate `ceph.conf`
+```bash
+ceph config generate-minimal-conf -o streaming.conf
+```
+
+Then copy `streaming.conf` to the client at `/etc/ceph/ceph.conf`
+
+* Create CephFS user
+```bash
+ceph fs authorize <filesystem> client.<username> {path} {permissions}
+
+# e.g:
+ceph fs authorize streaming client.cephfs-user / rw -o cephfs-user.keyring
+```
+
+Verify by `ceph auth get client.cephfs-user` command, then copy it to the client at `/etc/ceph/ceph.client.cephfs-user.keyring`
 
 ### 3.2a Mount CephFS using Kernel Driver
 
