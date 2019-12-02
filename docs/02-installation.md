@@ -1,13 +1,16 @@
 Installation
 ============
 
-## 0. Prerequisites
+## 1. `ceph-admin` server
+ceph-admin need `ceph` command (as well as other one) in order to perform administration tasks.
+
+* Prerequisites
 ```bash
 $ apt update
 $ apt install curl ca-certificates apt-transport-https
 ```
 
-## 1. Add APT repository
+* Add APT repository
 ```bash
 $ curl -sSL https://download.ceph.com/keys/release.asc | apt-key add -
 ```
@@ -16,8 +19,15 @@ $ curl -sSL https://download.ceph.com/keys/release.asc | apt-key add -
 $ export CEPH_RELEASE=nautilus
 $ echo "deb https://download.ceph.com/debian-${CEPH_RELEASE}/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/ceph.list
 ```
+* Install `ceph-common`
+```bash
+$ apt install ceph-common
+```
 
-## 2. Install Ceph packages
+## 2. Ceph cluster (sds servers)
+* Prerequisites and APT repository configs as above
+
+* Install Ceph packages
 ```bash
 $ apt update
 $ apt install ceph \
@@ -28,7 +38,15 @@ $ apt install ceph \
     radosgw
 ```
 
-## 3. Verify version
+* Verify version
 ```bash
 $ ceph --version
+```
+
+## 3. `ceph-client`
+* Prerequisites and APT repository configs as above
+
+* Install `ceph-common`
+```bash
+$ apt install ceph-common
 ```
