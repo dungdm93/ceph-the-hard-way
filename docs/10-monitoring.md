@@ -90,3 +90,12 @@ Access to Grafana via `http://localhost:3000`, username/password: `admin/admin`
 
 ### 3.3 Add Grafana Dashboards
 Add Ceph dashboards to Grafana. [link](https://github.com/ceph/ceph/tree/master/monitoring/grafana)
+
+## 4. Integrate Grafana + Ceph Dashboard
+```bash
+ceph dashboard set-grafana-api-url http://ceph-admin:3000
+
+ceph dashboard set-grafana-api-ssl-verify   False
+ceph dashboard set-grafana-api-username     admin
+ceph dashboard set-grafana-api-password     <API_KEY>
+```
